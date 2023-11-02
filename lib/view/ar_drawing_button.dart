@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:location_based_ar/infrastructure/ar_object_download.dart';
 import 'package:location_based_ar/view/ar_screen.dart';
+import 'package:location_based_ar/view/download_dialog.dart';
 import 'package:location_based_ar/view/no_communication_screen.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
@@ -12,14 +13,6 @@ class ArDrawingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: ElevatedButton(
-      // style: ElevatedButton.styleFrom(
-      //   backgroundColor: Colors.white,
-      //   foregroundColor: Colors.black,
-      //   elevation: 0,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.circular(10),
-      //   ),
-      // ),
       onPressed: () async {
         final info = NetworkInfo();
         final wifiName = await info.getWifiName();
@@ -29,14 +22,20 @@ class ArDrawingButton extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) => const NoCommunicationScreen()));
         } else if (wifiName == '"RaspberryPi_1"') {
-          await ArObjectDownload.downloadAndExtractZip(
-              'http://192.168.75.11:5000/get_glb');
+          await DownloadDialog.loadingFLow(
+            context,
+            function: () async {
+              await ArObjectDownload.downloadAndExtractZip(
+                  'http://192.168.75.11:5000/get_glb');
+            },
+          );
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ArScreen(
                         fileNameList: ArObjectDownload.arFileList,
                       )));
+
           // } else if (wifiName == '"RaspberryPi_2"') {
           //   await ArObjectDownload.downloadFile(
           //       'http://192.168.75.12:5000/get_glb', "2.glb");
