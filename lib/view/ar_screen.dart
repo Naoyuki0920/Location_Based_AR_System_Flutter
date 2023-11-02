@@ -69,9 +69,11 @@ class ArScreenState extends State<ArScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
           onPressed: onFileSystemObjectAtOriginButtonPressed,
-          child: const Icon(Icons.add)),
+          backgroundColor: Colors.white,
+          label: const Text("add & remove"),
+          icon: const Icon(Icons.add)),
       body: ARView(
         onARViewCreated: onARViewCreated,
         planeDetectionConfig: PlaneDetectionConfig.horizontalAndVertical,
