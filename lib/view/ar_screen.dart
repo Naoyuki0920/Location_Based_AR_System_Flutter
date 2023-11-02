@@ -49,7 +49,7 @@ class ArScreenState extends State<ArScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white.withOpacity(0.3),
+        backgroundColor: Colors.white.withOpacity(0.5),
         title: const Text('AR'),
         actions: [
           DropdownButton(

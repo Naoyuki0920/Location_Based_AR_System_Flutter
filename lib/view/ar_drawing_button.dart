@@ -12,7 +12,14 @@ class ArDrawingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: ElevatedButton(
-      child: const Text("AR表示"),
+      // style: ElevatedButton.styleFrom(
+      //   backgroundColor: Colors.white,
+      //   foregroundColor: Colors.black,
+      //   elevation: 0,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(10),
+      //   ),
+      // ),
       onPressed: () async {
         final info = NetworkInfo();
         final wifiName = await info.getWifiName();
@@ -22,8 +29,6 @@ class ArDrawingButton extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) => const NoCommunicationScreen()));
         } else if (wifiName == '"RaspberryPi_1"') {
-          // await ArObjectDownload.downloadFile(
-          //     'http://192.168.75.11:5000/get_glb', "1.glb");
           await ArObjectDownload.downloadAndExtractZip(
               'http://192.168.75.11:5000/get_glb');
           Navigator.push(
@@ -48,6 +53,7 @@ class ArDrawingButton extends StatelessWidget {
                   builder: (context) => const NoCommunicationScreen()));
         }
       },
+      child: const Text("AR表示"),
     ));
   }
 }
