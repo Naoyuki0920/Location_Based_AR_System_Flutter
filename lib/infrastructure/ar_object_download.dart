@@ -9,25 +9,14 @@ class ArObjectDownload {
   static List<String> arFileList = [];
 
   static Future<void> downloadAndExtractZip(url) async {
-    // ZIPファイルをダウンロード
     var response = await http.get(Uri.parse(url));
-
-    // ZIPファイルを保存する一時的なディレクトリを取得
     var tempDir = await getTemporaryDirectory();
     var tempPath = tempDir.path;
-
-    // ZIPファイルを一時的なディレクトリに保存
     File zipFile = File('$tempPath/file.zip');
     await zipFile.writeAsBytes(response.bodyBytes);
-
-    // ZIPファイルを解凍
     final bytes = File(zipFile.path).readAsBytesSync();
     final archive = ZipDecoder().decodeBytes(bytes);
-
-    // zip内のファイルの展開先を指定
     String dir = (await getApplicationDocumentsDirectory()).path;
-
-    // ZIPファイル内のファイルを一時的なディレクトリに展開
     arFileList.clear();
     for (final file in archive) {
       final filename = file.name;
@@ -38,10 +27,6 @@ class ArObjectDownload {
           ..writeAsBytesSync(data);
       }
       arFileList.add(filename);
-      print(arFileList);
-      print(filename);
     }
-
-    print('ZIPファイルが解凍されました。');
   }
 }

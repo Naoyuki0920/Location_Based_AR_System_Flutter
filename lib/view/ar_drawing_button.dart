@@ -26,7 +26,7 @@ class ArDrawingButton extends StatelessWidget {
             context,
             function: () async {
               await ArObjectDownload.downloadAndExtractZip(
-                  'http://192.168.75.11:5000/get_glb');
+                  'http://192.168.186.11:5000/get_glb');
             },
           );
           Navigator.push(
@@ -35,16 +35,20 @@ class ArDrawingButton extends StatelessWidget {
                   builder: (context) => ArScreen(
                         fileNameList: ArObjectDownload.arFileList,
                       )));
-
-          // } else if (wifiName == '"RaspberryPi_2"') {
-          //   await ArObjectDownload.downloadFile(
-          //       'http://192.168.75.12:5000/get_glb', "2.glb");
-          //   Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (context) => const LocalAndWebObjectsWidget(
-          //                 fileName: "2.glb",
-          //               )));
+        } else if (wifiName == '"RaspberryPi_2"') {
+          await DownloadDialog.loadingFLow(
+            context,
+            function: () async {
+              await ArObjectDownload.downloadAndExtractZip(
+                  'http://192.168.186.12:5000/get_glb');
+            },
+          );
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ArScreen(
+                        fileNameList: ArObjectDownload.arFileList,
+                      )));
         } else {
           Navigator.push(
               context,

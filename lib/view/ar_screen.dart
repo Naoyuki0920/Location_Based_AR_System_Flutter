@@ -21,12 +21,7 @@ class ArScreen extends StatefulWidget {
 class ArScreenState extends State<ArScreen> {
   ARSessionManager? arSessionManager;
   ARObjectManager? arObjectManager;
-  //String localObjectReference;
-  // ARNode? localObjectNode;
-  //String webObjectReference;
-  // ARNode? webObjectNode;
   ARNode? fileSystemNode;
-  // HttpClient? httpClient;
   late String selectedValue;
 
   @override
@@ -38,9 +33,7 @@ class ArScreenState extends State<ArScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.fileNameList.isNotEmpty) {
-      selectedValue = widget.fileNameList[0];
-    }
+    selectedValue = widget.fileNameList[0];
   }
 
   @override
