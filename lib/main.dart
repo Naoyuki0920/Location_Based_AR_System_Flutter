@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:location_based_ar/view/ar_drawing_button.dart';
-import 'package:network_info_plus/network_info_plus.dart';
+import 'package:location_based_ar/ar_screen/ar_drawing_screen.dart';
+import 'package:location_based_ar/description/description_screen.dart';
+import 'package:location_based_ar/setteing_screen/setting_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
@@ -43,13 +44,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late var info;
-
-  @override
-  void initState() {
-    super.initState();
-    info = NetworkInfo();
-  }
+  var _currentPageIndex = 0;
+  final _pages = <Widget>[
+    const ArDrawingScreen(),
+    const DescriptionScreen(),
+    const SettingScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -57,29 +57,30 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: const Text("Location-based AR"),
         ),
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FutureBuilder<String?>(
-                future: info.getWifiName(), // 非同期関数を呼び出す
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    String? data = snapshot.data;
-                    return Text("SSID: $data");
-                  } else {
-                    return const Text('No Data');
-                  }
-                },
+        bottomNavigationBar: NavigationBar(
+            onDestinationSelected: (int index) {
+              setState(() {
+                _currentPageIndex = index;
+              });
+            },
+            selectedIndex: _currentPageIndex,
+            destinations: const <Widget>[
+              NavigationDestination(
+                icon: Icon(Icons.view_in_ar_outlined),
+                selectedIcon: Icon(Icons.view_in_ar),
+                label: 'AR',
               ),
-              const SizedBox(height: 20),
-              const ArDrawingButton()
-            ],
-          ),
-        ));
+              NavigationDestination(
+                icon: Icon(Icons.description_outlined),
+                selectedIcon: Icon(Icons.description),
+                label: 'Description',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.settings_outlined),
+                selectedIcon: Icon(Icons.settings),
+                label: 'Setting',
+              ),
+            ]),
+        body: _pages[_currentPageIndex]);
   }
 }
