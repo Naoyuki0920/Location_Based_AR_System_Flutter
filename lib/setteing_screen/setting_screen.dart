@@ -65,54 +65,49 @@ class _SettingScreenState extends State<SettingScreen> {
             TextField(
               controller: raspi1Controller,
               decoration:
-                  const InputDecoration(hintText: 'RaspberryPi_1のIPを入力'),
+                  const InputDecoration(hintText: 'RaspberryPi_1のIPアドレスを入力'),
             ),
             TextField(
               controller: raspi2Controller,
               decoration:
-                  const InputDecoration(hintText: 'RaspberryPi_2のIPを入力'),
+                  const InputDecoration(hintText: 'RaspberryPi_2のIPアドレスを入力'),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    final prefs = await SharedPreferences.getInstance();
-                    // データを保存する
-                    prefs.setString(raspi1Key, raspi1Controller.text);
-                    prefs.setString(raspi2Key, raspi2Controller.text);
-                    prefs.setBool(iconKey, true);
-                    setState(() {
-                      // データを読み込む
-                      SettingScreen.raspi1 = prefs.getString(raspi1Key)!;
-                      SettingScreen.raspi2 = prefs.getString(raspi2Key)!;
-                      prefs.setBool(iconKey, true);
-                      if (SettingScreen.raspi1 != '' &&
-                          SettingScreen.raspi2 != '') {
-                        icon = true;
-                      }
-                    });
-                  },
-                  child: const Text('Save'),
-                ),
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     final prefs = await SharedPreferences.getInstance();
-                //     setState(() {
-                //       // データを削除する
-                //       icon = false;
-                //       title = '';
-                //       titleController.text = '';
-                //       comment = '';
-                //       commentController.text = '';
-                //       prefs.remove(titleKey);
-                //       prefs.remove(commentKey);
-                //     });
-                //   },
-                //   child: const Text('Clear'),
-                // ),
-              ],
+            ElevatedButton(
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                // データを保存する
+                prefs.setString(raspi1Key, raspi1Controller.text);
+                prefs.setString(raspi2Key, raspi2Controller.text);
+                prefs.setBool(iconKey, true);
+                setState(() {
+                  // データを読み込む
+                  SettingScreen.raspi1 = prefs.getString(raspi1Key)!;
+                  SettingScreen.raspi2 = prefs.getString(raspi2Key)!;
+                  prefs.setBool(iconKey, true);
+                  if (SettingScreen.raspi1 != '' &&
+                      SettingScreen.raspi2 != '') {
+                    icon = true;
+                  }
+                });
+              },
+              child: const Text('Save'),
             ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     final prefs = await SharedPreferences.getInstance();
+            //     setState(() {
+            //       // データを削除する
+            //       icon = false;
+            //       title = '';
+            //       titleController.text = '';
+            //       comment = '';
+            //       commentController.text = '';
+            //       prefs.remove(titleKey);
+            //       prefs.remove(commentKey);
+            //     });
+            //   },
+            //   child: const Text('Clear'),
+            // ),
           ],
         ),
       ),
